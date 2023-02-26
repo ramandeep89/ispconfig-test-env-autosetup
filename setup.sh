@@ -12,6 +12,9 @@ declare -a vms=(
 	"ispconfig-test-dns2 1 1024 5 ns2 ns2.test.seasec.in 192.168.194.252"
 )
 
+rm /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img*
+rm jammy-server-cloudimg-arm64.img*
+
 wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img -o /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img
 
 hosts=""
@@ -27,7 +30,7 @@ done
 for vm in "${vms[@]}"
 do
 	read -a guest <<< "$vm"
-	qemu-img create -f qcow2 -o backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-arm64.img /var/lib/libvirt/images/${guest[0]}.qcow2
+	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img -F qcow2 /var/lib/libvirt/images/${guest[0]}.qcow2
 	qemu-img resize /var/lib/libvirt/images/${guest[0]}.qcow2  ${guest[3]}G
 	rm -f /var/lib/libvirt/images/${guest[0]}-init.cfg
 	cat > /var/lib/libvirt/images/${guest[0]}-init.cfg << END
