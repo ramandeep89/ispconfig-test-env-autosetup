@@ -48,7 +48,7 @@ do
 		hostname: ${guest[4]}
 		fqdn: ${guest[5]}
 		preserve_hostname: false
-		bootcmd: $hosts
+		bootcmd: ${hosts}
 		runcmd:
 			- curl -s https://install.zerotier.com | bash
 			- zerotier-cli join a0cbf4b62a7ff840
