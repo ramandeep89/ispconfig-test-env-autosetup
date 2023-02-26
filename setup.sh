@@ -35,23 +35,23 @@ do
 	qemu-img resize /var/lib/libvirt/images/${guest[0]}.qcow2  ${guest[3]}G
 	rm -f /var/lib/libvirt/images/${guest[0]}-init.cfg
 	cat > /var/lib/libvirt/images/${guest[0]}-init.cfg << END
-		#cloud-config
-		users:
-		  - name: testbed
-			gecos: TestBed
-			lock_passwd: false
-			#password hash generated with mkpasswd --method=SHA-512 --rounds=4096. Escape all $ signs with \\$
-			passwd: \$6\$rounds=4096\$8jOG6xQnJZNoNnz1\$uKXvZaxp6eMSsQhJybpHAgo6rJZaTuNSqOaHYPdxS3L/wOsxGxJ/OMN.BYi/Bp.HQ74G/bIUIlF/rtGYoOdAE1
-			sudo:  ALL=(ALL) NOPASSWD:ALL
-			groups: sudo
-			shell: /bin/bash
-		hostname: ${guest[4]}
-		fqdn: ${guest[5]}
-		preserve_hostname: false
-		bootcmd: ${hosts}
-		runcmd:
-			- curl -s https://install.zerotier.com | bash
-			- zerotier-cli join a0cbf4b62a7ff840
+#cloud-config
+users:
+	- name: testbed
+		gecos: TestBed
+		lock_passwd: false
+		#password hash generated with mkpasswd --method=SHA-512 --rounds=4096. Escape all $ signs with \\$
+		passwd: \$6\$rounds=4096\$8jOG6xQnJZNoNnz1\$uKXvZaxp6eMSsQhJybpHAgo6rJZaTuNSqOaHYPdxS3L/wOsxGxJ/OMN.BYi/Bp.HQ74G/bIUIlF/rtGYoOdAE1
+		sudo:  ALL=(ALL) NOPASSWD:ALL
+		groups: sudo
+		shell: /bin/bash
+hostname: ${guest[4]}
+fqdn: ${guest[5]}
+preserve_hostname: false
+bootcmd: ${hosts}
+runcmd:
+	- curl -s https://install.zerotier.com | bash
+	- zerotier-cli join a0cbf4b62a7ff840
 END
 	cloud-localds /var/lib/libvirt/images/${guest[0]}.iso /var/lib/libvirt/images/${guest[0]}-init.cfg
 	virt-install \
