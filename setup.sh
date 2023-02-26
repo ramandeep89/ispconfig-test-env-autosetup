@@ -30,7 +30,7 @@ done
 for vm in "${vms[@]}"
 do
 	read -a guest <<< "$vm"
-	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img -F raw /var/lib/libvirt/images/${guest[0]}.qcow2
+	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img -F qcow2 /var/lib/libvirt/images/${guest[0]}.qcow2
 	qemu-img resize /var/lib/libvirt/images/${guest[0]}.qcow2  ${guest[3]}G
 	rm -f /var/lib/libvirt/images/${guest[0]}-init.cfg
 	cat > /var/lib/libvirt/images/${guest[0]}-init.cfg << END
