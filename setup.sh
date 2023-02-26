@@ -12,10 +12,10 @@ declare -a vms=(
 	"ispconfig-test-dns2 1 1024 5 ns2 ns2.test.seasec.in 192.168.194.252"
 )
 
-#rm /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img*
+rm /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img*
 rm jammy-server-cloudimg-arm64.img*
 
-#wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img -o /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img
+wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img -o /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img
 
 hosts=""
 
