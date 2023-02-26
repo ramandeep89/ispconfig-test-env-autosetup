@@ -64,7 +64,6 @@ END
 		--network default,model=virtio \
 		--graphics none \
 		--import \
-		--extra-args='console=ttyS0,115200n8 --- console=ttyS0,115200n8' \
 		--noautoconsole
 	
 	unset guest
