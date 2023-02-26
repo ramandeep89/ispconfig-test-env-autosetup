@@ -50,7 +50,7 @@ do
 			- zerotier-cli join a0cbf4b62a7ff840
 END
 	cloud-localds /var/lib/libvirt/images/${guest[0]}.iso /var/lib/libvirt/images/${guest[0]}-init.cfg
-	sudo virt-install 
+	virt-install 
 		--name ${guest[0]} \
 		--os-variant ubuntu22.04 \
 		--virt-type qemu \
