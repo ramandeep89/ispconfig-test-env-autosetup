@@ -57,6 +57,7 @@ END
         --import \
         --noautoconsole
     
+    virsh autostart ${guest[0]}
     unset guest
 done
 
