@@ -30,14 +30,14 @@ done
 for vm in "${vms[@]}"
 do
 	read -a guest <<< "$vm"
-	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img -F qcow2 /var/lib/libvirt/images/${guest[0]}.qcow2
+	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-arm64.img -F raw /var/lib/libvirt/images/${guest[0]}.qcow2
 	qemu-img resize /var/lib/libvirt/images/${guest[0]}.qcow2  ${guest[3]}G
 	rm -f /var/lib/libvirt/images/${guest[0]}-init.cfg
 	cat > /var/lib/libvirt/images/${guest[0]}-init.cfg << END
 		#cloud-config
 		users:
 		  - name: testbed
-			gecos: Test Bedi
+			gecos: TestBed
 			lock_passwd: false
 			#password hash generated with mkpasswd --method=SHA-512 --rounds=4096. Escape all $ signs with \\$
 			passwd: \$6\$rounds=4096\$8jOG6xQnJZNoNnz1\$uKXvZaxp6eMSsQhJybpHAgo6rJZaTuNSqOaHYPdxS3L/wOsxGxJ/OMN.BYi/Bp.HQ74G/bIUIlF/rtGYoOdAE1
