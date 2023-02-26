@@ -15,7 +15,8 @@ declare -a vms=(
 rm -f /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img*
 rm -f jammy-server-cloudimg-amd64.img*
 
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -o /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img 
+mv jammy-server-cloudimg-amd64.img /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img
 
 hosts=""
 
@@ -30,7 +31,7 @@ done
 for vm in "${vms[@]}"
 do
 	read -a guest <<< "$vm"
-	qemu-img create -f qcow2 -b /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img -F qcow2 /var/lib/libvirt/images/${guest[0]}.qcow2
+	qemu-img create -f qcow2 -F qcow2 -o backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64.img /var/lib/libvirt/images/${guest[0]}.qcow2
 	qemu-img resize /var/lib/libvirt/images/${guest[0]}.qcow2  ${guest[3]}G
 	rm -f /var/lib/libvirt/images/${guest[0]}-init.cfg
 	cat > /var/lib/libvirt/images/${guest[0]}-init.cfg << END
@@ -61,10 +62,14 @@ END
 		--memory ${guest[2]} \
 		--disk /var/lib/libvirt/images/${guest[0]}.qcow2,device=disk,bus=virtio \
 		--disk /var/lib/libvirt/images/${guest[0]}.iso,device=cdrom \
-		--network default,model=virtio \
+		--network network=default,model=virtio \
 		--graphics none \
 		--import \
 		--noautoconsole
 	
 	unset guest
 done
+
+unset hosts
+
+virsh list --all
