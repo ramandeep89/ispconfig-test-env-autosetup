@@ -48,7 +48,7 @@ runcmd:
     - curl -s https://install.zerotier.com | bash
     - zerotier-cli join a0cbf4b62a7ff840
 END
-	cloud-init schema --config-file /var/lib/libvirt/images/${guest[0]}-init.cfg
+    cloud-init schema --config-file /var/lib/libvirt/images/${guest[0]}-init.cfg
     cloud-localds /var/lib/libvirt/images/${guest[0]}.iso /var/lib/libvirt/images/${guest[0]}-init.cfg
     virt-install \
         --name ${guest[0]} \
