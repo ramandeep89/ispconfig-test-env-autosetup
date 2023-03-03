@@ -7,14 +7,14 @@ fi
 
 #declare each guest in the format - "kms-domain-name #cpus #mem_in_bytes #disk_in_gigabytes hostname fqdn"
 declare -a vms=(
-    "ispconfig-test-panel 1 2048 10 panel panel.test.seasec.in"
-    "ispconfig-test-webserver 1 2048 10 web web.test.seasec.in"
-    "ispconfig-test-dbserver 1 2048 10 db db.test.seasec.in"
-    "ispconfig-test-webmailserver 1 2048 10 webmail webmail.test.seasec.in"
-    "ispconfig-test-mailserver1 1 1024 5 mx1 mx1.test.seasec.in"
-    "ispconfig-test-mailserver2 1 1024 5 mx2 mx2.test.seasec.in"
-    "ispconfig-test-dns1 1 1024 5 ns1 ns1.test.seasec.in"
-    "ispconfig-test-dns2 1 1024 5 ns2 ns2.test.seasec.in"
+    "ispconfig-test-panel 2 2048 10 panel panel.test.seasec.in"
+    "ispconfig-test-webserver 2 2048 10 web web.test.seasec.in"
+    "ispconfig-test-dbserver 2 2048 10 db db.test.seasec.in"
+    "ispconfig-test-webmailserver 2 2048 10 webmail webmail.test.seasec.in"
+    "ispconfig-test-mailserver1 2 1024 5 mx1 mx1.test.seasec.in"
+    "ispconfig-test-mailserver2 2 1024 5 mx2 mx2.test.seasec.in"
+    "ispconfig-test-dns1 2 1024 5 ns1 ns1.test.seasec.in"
+    "ispconfig-test-dns2 2 1024 5 ns2 ns2.test.seasec.in"
 )
 
 rm -f /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img*
