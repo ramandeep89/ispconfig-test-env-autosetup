@@ -1,5 +1,10 @@
 #!/bin/bash -x
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root, not as regular user or sudo"
+  exit
+fi
+
 #declare each guest in the format - "kms-domain-name #cpus #mem_in_bytes #disk_in_gigabytes hostname fqdn"
 declare -a vms=(
     "ispconfig-test-panel 1 2048 10 panel panel.test.seasec.in"
@@ -43,6 +48,7 @@ runcmd:
     - curl -s https://install.zerotier.com | bash
     - zerotier-cli join a0cbf4b62a7ff840
 END
+	cloud-init schema --config-file /var/lib/libvirt/images/${guest[0]}-init.cfg
     cloud-localds /var/lib/libvirt/images/${guest[0]}.iso /var/lib/libvirt/images/${guest[0]}-init.cfg
     virt-install \
         --name ${guest[0]} \
