@@ -5,16 +5,16 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-#declare each guest in the format - "kms-domain-name #cpus #mem_in_bytes #disk_in_gigabytes hostname fqdn"
+#declare each guest in the format - "kms-domain-name #cpus #mem_in_bytes #disk_in_gigabytes hostname fqdn zero.tier.pref.ip"
 declare -a vms=(
-    "ispconfig-test-panel 2 2048 10 panel panel.test.seasec.in"
-    "ispconfig-test-webserver 2 2048 10 web web.test.seasec.in"
-    "ispconfig-test-dbserver 2 2048 10 db db.test.seasec.in"
-    "ispconfig-test-webmailserver 2 2048 10 webmail webmail.test.seasec.in"
-    "ispconfig-test-mailserver1 2 1024 5 mx1 mx1.test.seasec.in"
-    "ispconfig-test-mailserver2 2 1024 5 mx2 mx2.test.seasec.in"
-    "ispconfig-test-dns1 2 1024 5 ns1 ns1.test.seasec.in"
-    "ispconfig-test-dns2 2 1024 5 ns2 ns2.test.seasec.in"
+    "ispconfig-test-panel 4 2048 10 panel panel.test.seasec.in 192.168.194.200"
+    "ispconfig-test-webserver 4 2048 10 web web.test.seasec.in 192.168.194.201"
+    "ispconfig-test-dbserver 4 2048 10 db db.test.seasec.in 192.168.194.211"
+    "ispconfig-test-webmailserver 4 2048 10 webmail webmail.test.seasec.in 192.168.194.220"
+    "ispconfig-test-mailserver1 4 1024 5 mx1 mx1.test.seasec.in 192.168.194.221"
+    "ispconfig-test-mailserver2 4 1024 5 mx2 mx2.test.seasec.in 192.168.194.222"
+    "ispconfig-test-dns1 4 1024 5 ns1 ns1.test.seasec.in 192.168.194.251"
+    "ispconfig-test-dns2 4 1024 5 ns2 ns2.test.seasec.in 192.168.194.252"
 )
 
 rm -f /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img*
@@ -22,6 +22,16 @@ rm -f jammy-server-cloudimg-amd64.img*
 
 wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img 
 mv jammy-server-cloudimg-amd64.img /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img
+
+NEW_LINE=$'\n'
+boot_cmd="bootcmd:$NEW_LINE"
+
+for vm in "${vms[@]}"
+do
+    read -a guest <<< "$vm"
+        boot_cmd+="    - echo ${guest[6]} ${guest[5]} ${guest[4]} > /etc/cloud/templates/hosts.debian.tmpl$NEW_LINE"
+    unset guest
+done
 
 for vm in "${vms[@]}"
 do
@@ -42,11 +52,13 @@ users:
     shell: /bin/bash
 hostname: ${guest[4]}
 fqdn: ${guest[5]}
+manage_etc_hosts: true
 preserve_hostname: false
 ssh_pwauth: true
 runcmd:
     - curl -s https://install.zerotier.com | bash
     - zerotier-cli join a0cbf4b62a7ff840
+$boot_cmd
 END
     cloud-init schema --config-file /var/lib/libvirt/images/${guest[0]}-init.cfg
     cloud-localds /var/lib/libvirt/images/${guest[0]}.iso /var/lib/libvirt/images/${guest[0]}-init.cfg
@@ -66,5 +78,8 @@ END
     virsh autostart ${guest[0]}
     unset guest
 done
+
+unset boot_cmd
+unset vms
 
 virsh list --all
