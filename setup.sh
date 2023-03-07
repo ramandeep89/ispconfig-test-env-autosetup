@@ -29,7 +29,7 @@ boot_cmd="bootcmd:$NEW_LINE"
 for vm in "${vms[@]}"
 do
     read -a guest <<< "$vm"
-        boot_cmd+="    - echo ${guest[6]} ${guest[5]} ${guest[4]} > /etc/cloud/templates/hosts.debian.tmpl$NEW_LINE"
+        boot_cmd+="    - echo ${guest[6]} ${guest[5]} ${guest[4]} >> /etc/cloud/templates/hosts.debian.tmpl$NEW_LINE"
     unset guest
 done
 
