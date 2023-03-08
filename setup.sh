@@ -11,10 +11,10 @@ declare -a vms=(
     "ispconfig-test-webserver 4 2048 10 web web.test.seasec.in 192.168.194.201"
     "ispconfig-test-dbserver 4 2048 10 db db.test.seasec.in 192.168.194.211"
     "ispconfig-test-webmailserver 4 2048 10 webmail webmail.test.seasec.in 192.168.194.220"
-    "ispconfig-test-mailserver1 4 1024 5 mx1 mx1.test.seasec.in 192.168.194.221"
-    "ispconfig-test-mailserver2 4 1024 5 mx2 mx2.test.seasec.in 192.168.194.222"
-    "ispconfig-test-dns1 4 1024 5 ns1 ns1.test.seasec.in 192.168.194.251"
-    "ispconfig-test-dns2 4 1024 5 ns2 ns2.test.seasec.in 192.168.194.252"
+    "ispconfig-test-mailserver1 4 1024 10 mx1 mx1.test.seasec.in 192.168.194.221"
+    "ispconfig-test-mailserver2 4 1024 10 mx2 mx2.test.seasec.in 192.168.194.222"
+    "ispconfig-test-dns1 4 1024 10 ns1 ns1.test.seasec.in 192.168.194.251"
+    "ispconfig-test-dns2 4 1024 10 ns2 ns2.test.seasec.in 192.168.194.252"
 )
 
 rm -f /var/lib/libvirt/images/jammy-server-cloudimg-amd64.img*
